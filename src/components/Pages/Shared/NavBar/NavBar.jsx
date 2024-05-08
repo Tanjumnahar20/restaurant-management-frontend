@@ -1,6 +1,20 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom';
 import logo from '../../../../assets/logo.jpg'
+import useAuth from '../../../CustomHook/useAuth';
 const NavBar = () => {
+
+  const {user,logOut} = useAuth();
+  console.log('user',user);
+
+  const handleLogOut = () => {
+    logOut()
+    .then(() =>{
+      alert('log out successfully')
+    })
+    .catch( error => console.log(error))
+}
 
      const navItems = <>
      <li><Link to='/home'>Home</Link></li>
@@ -8,6 +22,18 @@ const NavBar = () => {
      <li><Link to='/reservation'>Reservation</Link></li>
      <li><Link to='/blog'>Blog</Link></li>
      <li><Link to='/signup'>Sign up</Link></li>
+
+  {
+    user?.email?    <>
+    <li className='flex flex-row'>
+    <img src={logo}  className=' btn btn-ghost btn-circle avatar' alt="" />
+    <button onClick={handleLogOut}>log out</button>
+   </li> 
+    </>
+   :
+ <li><Link className='' to='/login'>login</Link></li>
+  }
+     
      
      </>
 
@@ -33,26 +59,20 @@ const NavBar = () => {
            {navItems}
           </ul>
         </div>
+     
         <div className="navbar-end">
-          <Link to='/login'>Login</Link>
-        </div>
-        <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+         <div className="dropdown dropdown-end">
+      {/* <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
           <img alt="Tailwind CSS Navbar component" src={logo} />
         </div>
-      </div>
-      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-        <li>
-          <a className="justify-between">
-            Profile
-            <span className="badge">New</span>
-          </a>
-        </li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
-      </ul>
+      </div> */}
+    
     </div>
+          
+        </div>
+      
+     
       </div>
     );
 };
